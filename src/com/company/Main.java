@@ -35,6 +35,7 @@ public class Main {
         istr.put("!",16);
         istr.put("{",17);
         istr.put("}",18);
+        istr.put(";",19);
 
 
         FileInputStream infile = null;
@@ -64,20 +65,39 @@ public class Main {
     }
     void parser(String line) {
         line.trim();
-
-
         //判断开头是否为关键字
-        for (Map.Entry<String, Integer> entry : istr.entrySet()) {
-            if (line.startsWith(entry.getKey())){
-                System.out.println("("+entry.getValue()+","+entry.getKey()+")");
-            } else{}
+        int flagw;
+        int curnow = 0;
+        int length = 0;
+
+        //startwith toffset
+        //处理int double 等后接变量名 判断注释
+        //不在范围内并且有空格的左值认为是用户标识符 右值认为是常量
+
+
+        for (flagw = 0; flagw != -1; curnow += length) {
+            for (Map.Entry<String, Integer> entry : istr.entrySet()) {
+                if (line.startsWith(entry.getKey())) {
+                    System.out.println("(" + entry.getValue() + "," + entry.getKey() + ")");
+                    line = line.substring(entry.getKey().length());
+                    //保留字判断完成 trim进行下次判断
+                    if (line.startsWith(" ")) {
+                        line=line.trim();
+                        System.err.println("trimed");
+                    }
+                    System.err.println(line);
+                } else {
+                }
+                line.trim();
+
+
+
+
+            }
+
+
         }
-
     }
-
-
-
-
     public static void main(String[] args) {
 	// write your code here
         if(args.length==0){
@@ -90,14 +110,9 @@ public class Main {
             }else{
                 System.exit(1);
             }
-
         }
-
-
     }
 }
-
-
 /*
 标识符需要解析出来 统一放表里 (map)   注意\
     关键字也放map里

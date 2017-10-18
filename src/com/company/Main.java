@@ -33,6 +33,8 @@ public class Main {
         istr.put("<",14);
         istr.put(">",15);
         istr.put("!",16);
+        istr.put("{",17);
+        istr.put("}",18);
 
 
         FileInputStream infile = null;
@@ -88,6 +90,7 @@ public class Main {
             }else{
                 System.exit(1);
             }
+
         }
 
 
